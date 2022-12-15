@@ -7,6 +7,10 @@
     "@preact/signals": "https://esm.sh/*@preact/signals@1.0.3",
     "@preact/signals-core": "https://esm.sh/*@preact/signals-core@1.0.1",
     "twind": "https://esm.sh/twind@0.16.17",
-    "twind/": "https://esm.sh/twind@0.16.17/"
+    "twind/": "https://esm.sh/twind@0.16.17/",
+    "$supabase/": "https://esm.sh/@supabase/supabase-js@2.2.0/",
+    "$supabase": "https://esm.sh/@supabase/supabase-js@2.2.0",
+    "@supabase/": "https://esm.sh/@supabase/",
+    "$std/": "https://deno.land/std@0.168.0/"
   }
 }

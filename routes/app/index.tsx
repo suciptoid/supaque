@@ -1,5 +1,6 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
 import { User } from "https://esm.sh/v99/@supabase/gotrue-js@2.5.0/dist/module/index";
+import AppLayout from "../../components/AppLayout.tsx";
 import { AppState } from "./_middleware.ts";
 
 interface Data {
@@ -12,5 +13,9 @@ export const handler: Handlers<Data, AppState> = {
   },
 };
 export default function AppIndexPage({ data }: PageProps<Data>) {
-  return <div>hello {data.user.email}</div>;
+  return (
+    <AppLayout>
+      <div>hello {data.user.email}</div>
+    </AppLayout>
+  );
 }

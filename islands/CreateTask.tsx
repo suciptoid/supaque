@@ -13,10 +13,11 @@ export default function CreateTask() {
             <select
               class="border px-3 py-2 rounded"
               value={method}
+              name="method"
               onChange={(e) => setMethod((e.target as HTMLSelectElement).value)}
             >
-              <option value="POST">POST</option>
               <option value="GET">GET</option>
+              <option value="POST">POST</option>
             </select>
             <input
               type="text"
@@ -37,36 +38,53 @@ export default function CreateTask() {
         )}
         <fieldset>
           <label class="font-medium text-gray-800">Timing</label>
-          <div className="flex items-center gap-3">
-            <label>
-              <input
-                defaultChecked={timing == "once"}
-                type="radio"
-                name="timing"
-                value="once"
-              />
+          <div className="flex items-center border rounded-md text-sm">
+            <button
+              onClick={() => setTiming("once")}
+              type="button"
+              class={`rounded-l-md flex-1 py-2 focus:outline-none focus:ring ${
+                timing == "once" ? "bg-gray-200" : ""
+              }`}
+            >
               Once
-            </label>
+            </button>
+            <button
+              type="button"
+              onClick={() => setTiming("cron")}
+              class={`rounded-r-md flex-1 py-2 focus:outline-none focus:ring ${
+                timing == "cron" ? "bg-gray-200" : ""
+              }`}
+            >
+              Repeat (Cron)
+            </button>
+          </div>
+          <input type="hidden" name="timing" value={timing} />
+        </fieldset>
+        {timing == "cron" && (
+          <fieldset class="flex flex-col">
+            <label class="font-medium text-gray-800">Cron Expression</label>
+            <input
+              type="text"
+              name="cron"
+              placeholder="* * * * *"
+              class="px-3 py-2 rounded border"
+            />
+          </fieldset>
+        )}
+        {timing == "once" && (
+          <fieldset class="flex flex-col">
+            <label class="font-medium text-gray-800">Delay</label>
             <label>
               <input
-                defaultChecked={timing == "cron"}
-                type="radio"
-                name="timing"
-                value="cron"
-              />
-              Cron
+                type="text"
+                name="cron"
+                placeholder="0"
+                class="px-3 py-2 rounded border"
+              />{" "}
+              Minute
             </label>
-          </div>
-        </fieldset>
-        <fieldset class="flex flex-col">
-          <label class="font-medium text-gray-800">Cron Expression</label>
-          <input
-            type="text"
-            name="cron"
-            placeholder="* * * * *"
-            class="px-3 py-2 rounded border"
-          />
-        </fieldset>
+          </fieldset>
+        )}
         <fieldset>
           <button
             type="submit"

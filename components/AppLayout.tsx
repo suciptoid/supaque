@@ -8,7 +8,7 @@ interface Props {
 export default function AppLayout({ children, user }: Props) {
   return (
     <main class="w-full max-w-4xl m-auto">
-      <header class="flex items-center justify-between">
+      <header class="flex items-center justify-between py-3 border-b">
         <h1 class=" py-2 text-xl font-semibold">Supa Que</h1>
         <nav class="flex items-center gap-2">
           <div class="text-gray-800 font-medium text-sm">{user?.email}</div>

@@ -5,7 +5,7 @@ export default function CreateTask() {
   const [timing, setTiming] = useState("cron");
 
   return (
-    <div>
+    <div class="py-2">
       <form class="py-1 flex flex-col gap-3" method="post">
         <fieldset class="flex flex-col">
           <label class="font-medium text-gray-800">URL</label>
@@ -73,7 +73,9 @@ export default function CreateTask() {
         )}
         {timing == "once" && (
           <fieldset class="flex flex-col">
-            <label class="font-medium text-gray-800">Delay</label>
+            <label class="font-medium text-gray-800">
+              Delay <span className="text-gray-500 text-sm">(Optional)</span>
+            </label>
             <label>
               <input
                 type="text"

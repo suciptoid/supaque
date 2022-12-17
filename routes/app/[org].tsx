@@ -2,20 +2,36 @@ import { PageProps, Handlers } from "$fresh/server.ts";
 import { User } from "https://esm.sh/v99/@supabase/gotrue-js@2.5.0/dist/module/lib/types";
 import AppLayout from "../../components/AppLayout.tsx";
 import CreateTask from "../../islands/CreateTask.tsx";
+import QueueList, { QueueLog } from "../../islands/QueueList.tsx";
 import { TaskInsert } from "../../lib/database.types.ts";
 import { supabase } from "../../lib/supabase.ts";
 import { AppState } from "./_middleware.ts";
 
 interface Data {
   user: User;
+  logs?: QueueLog[];
   error?: string;
 }
 
 export const handler: Handlers<Data, AppState> = {
-  GET(req, ctx) {
+  async GET(req, ctx) {
     const user = ctx.state.user;
 
-    return ctx.render({ user });
+    // get queue lists
+    const { error, data } = await supabase
+      .from("task_runs")
+      .select(
+        `
+      id,task_id,http_status,http_body,created_at,completed_at,
+      tasks(id,name,cron_schedule,next_run,http_method,http_url)
+      `
+      )
+      .eq("tasks.org_id", ctx.params.org)
+      .order("created_at", { ascending: false });
+
+    console.log("quueuee", data);
+
+    return ctx.render({ user, logs: data as QueueLog[] });
   },
   async POST(req, ctx) {
     const form = await req.formData();
@@ -46,10 +62,12 @@ export const handler: Handlers<Data, AppState> = {
     return ctx.render({ user: ctx.state.user });
   },
 };
+
 export default function AppIndexPage({ data }: PageProps<Data>) {
   return (
     <AppLayout user={data.user}>
       <CreateTask />
+      <QueueList data={data.logs} />
     </AppLayout>
   );
 }

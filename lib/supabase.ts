@@ -1,7 +1,8 @@
 import { createClient } from "$supabase";
 import { getCookies } from "$std/http/cookie.ts";
+import { Database } from "./database.types.ts";
 
-export const supabase = createClient(
+export const supabase = createClient<Database>(
   Deno.env.get("SUPABASE_URL") as string,
   Deno.env.get("SUPABASE_KEY") as string
 );

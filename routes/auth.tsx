@@ -11,7 +11,6 @@ export const handler: Handlers<AuthData> = {
   async POST(req, ctx) {
     const form = await req.formData();
 
-    console.log("render form");
     const url = new URL(req.url);
     const { error } = await supabase.auth.signInWithOtp({
       email: form.get("email") as string,
@@ -33,7 +32,6 @@ export const handler: Handlers<AuthData> = {
 
     if (token) {
       const user = await supabase.auth.getUser(token);
-      console.log("handle callback token", user);
       if (!user.error) {
         const resp = new Response("", {
           status: 303,
@@ -41,6 +39,7 @@ export const handler: Handlers<AuthData> = {
             Location: "/app",
           },
         });
+
         setCookie(resp.headers, {
           name: "sup_session",
           value: token,
@@ -50,7 +49,6 @@ export const handler: Handlers<AuthData> = {
         return resp;
       }
     }
-    console.log("token not found?", token, url, url.hash, req.url);
     return ctx.render({});
   },
 };

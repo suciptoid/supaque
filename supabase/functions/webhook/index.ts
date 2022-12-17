@@ -5,7 +5,7 @@
 import { serve } from "https://deno.land/std@0.131.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.2.0/";
 import { Database } from "./database.types.ts";
-import { getFutureMatches } from "https://esm.sh/@datasert/cronjs-matcher";
+import { Cron } from "https://deno.land/x/croner@5.3.4/src/croner.js";
 
 export const supabase = createClient<Database>(
   Deno.env.get("SUPABASE_URL") as string,
@@ -28,7 +28,7 @@ serve(async (req) => {
   const data = (await req.json()) as Data;
   console.log("request data", data.record);
 
-  const { data: task, error } = await supabase
+  const { data: task } = await supabase
     .from("task_runs")
     .select(
       "id,task_id,tasks(id,cron_schedule,next_run,http_method,http_body,http_url,max_retry,max_timeout)"
@@ -57,9 +57,17 @@ serve(async (req) => {
         .select("*");
 
       if (data.cron_schedule) {
-        const next = getFutureMatches(data.cron_schedule, {
-          matchCount: 0,
+        const cron = new Cron(data.cron_schedule, {
+          maxRuns: 1,
         });
+        const next = cron.next();
+        if (next) {
+          // Update task next run
+          await supabase
+            .from("tasks")
+            .update({ next_run: next.toISOString() })
+            .eq("id", data.id);
+        }
         console.log("next cron schedule", next);
       }
       console.log("update", update);

@@ -1,14 +1,13 @@
 import { PageProps, Handlers } from "$fresh/server.ts";
 import { Head } from "$fresh/runtime.ts";
 import { User } from "https://esm.sh/v99/@supabase/gotrue-js@2.5.0/dist/module/lib/types";
-import AppLayout from "../../components/AppLayout.tsx";
-import CreateTask from "../../islands/CreateTask.tsx";
-import LogList, { QueueLog } from "../../islands/LogList.tsx";
-import { Task, TaskInsert } from "../../lib/database.types.ts";
-import { supabase } from "../../lib/supabase.ts";
-import { AppState } from "./_middleware.ts";
+import AppLayout from "../../../components/AppLayout.tsx";
+import LogList, { QueueLog } from "../../../islands/LogList.tsx";
+import { Task, TaskInsert } from "../../../lib/database.types.ts";
+import { supabase } from "../../../lib/supabase.ts";
+import { AppState } from "../_middleware.ts";
 import { Cron } from "https://deno.land/x/croner@5.3.4/src/croner.js";
-import PendingList from "../../islands/PendingList.tsx";
+import PendingList from "../../../islands/PendingList.tsx";
 
 interface Data {
   user: User;
@@ -147,7 +146,6 @@ export default function AppIndexPage({ data, params }: PageProps<Data>) {
         <title>Supa Que - Dashboard</title>
       </Head>
       <AppLayout user={data.user}>
-        <CreateTask />
         <div id="overview-card" class="grid grid-cols-2 mt-3 gap-2">
           <div class="border rounded-md px-4 py-4">
             <div class="text-4xl font-extrabold text-gray-900">
@@ -168,8 +166,16 @@ export default function AppIndexPage({ data, params }: PageProps<Data>) {
           </div>
         </div>
         <div className="flex items-center justify-between">
-          <div className="my-3">
-            <h2 class="text-lg font-semibold text-gray-800">Pending Task</h2>
+          <div className="my-3 w-full">
+            <div className="flex items-center justify-between">
+              <h2 class="text-lg font-semibold text-gray-800">Pending Task</h2>
+              <a
+                href={`/app/${params.org}/create`}
+                class="px-3 py-1.5 text-sm text-white bg-blue-500 rounded-md"
+              >
+                Create Task
+              </a>
+            </div>
             <p class="text-xs text-gray-600">
               Pending task and scheduled task will shown here
             </p>

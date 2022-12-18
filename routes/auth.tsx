@@ -1,5 +1,9 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
-import { supabase } from "../lib/supabase.ts";
+import {
+  getUserFromSession,
+  setAuthCookie,
+  supabase,
+} from "../lib/supabase.ts";
 import { setCookie } from "$std/http/cookie.ts";
 
 interface AuthData {
@@ -28,10 +32,11 @@ export const handler: Handlers<AuthData> = {
   async GET(req, ctx) {
     const url = new URL(req.url);
 
-    const token = url.searchParams.get("access_token");
+    const access = url.searchParams.get("access_token");
+    const refresh = url.searchParams.get("refresh_token");
 
-    if (token) {
-      const user = await supabase.auth.getUser(token);
+    if (access && refresh) {
+      const user = await supabase.auth.getUser(access);
       if (!user.error) {
         const resp = new Response("", {
           status: 303,
@@ -40,13 +45,19 @@ export const handler: Handlers<AuthData> = {
           },
         });
 
-        setCookie(resp.headers, {
-          name: "sup_session",
-          value: token,
-          path: "/",
-          httpOnly: true,
-        });
+        setAuthCookie(resp, refresh, access);
+
         return resp;
+      }
+    } else {
+      const user = await getUserFromSession(req);
+      if (user) {
+        return new Response("", {
+          status: 303,
+          headers: {
+            Location: "/app",
+          },
+        });
       }
     }
     return ctx.render({});

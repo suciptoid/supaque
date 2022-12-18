@@ -1,7 +1,14 @@
 import { MiddlewareHandlerContext } from "$fresh/server.ts";
 import { User } from "https://esm.sh/v99/@supabase/gotrue-js@2.5.0/dist/module/index";
+import { Session } from "https://esm.sh/v99/@supabase/gotrue-js@2.5.0/dist/module/lib/types";
 import { Org } from "../../lib/database.types.ts";
-import { getUserFromSession, supabase } from "../../lib/supabase.ts";
+import {
+  accessTokenExpired,
+  getUserFromSession,
+  refreshAccessToken,
+  setAuthCookie,
+  supabase,
+} from "../../lib/supabase.ts";
 
 export interface AppState {
   user: User;
@@ -12,7 +19,32 @@ export async function handler(
   req: Request,
   ctx: MiddlewareHandlerContext<AppState>
 ) {
-  const user = await getUserFromSession(req);
+  let user = await getUserFromSession(req);
+  let session: Session | null = null;
+
+  // check if access token is expired
+  if (!user && accessTokenExpired(req)) {
+    const refresh = await refreshAccessToken(req);
+
+    if (!refresh?.session) {
+      console.log("unable to refresh session");
+      return new Response("", {
+        status: 303,
+        headers: {
+          Location: `/auth`,
+        },
+      });
+    }
+
+    if (refresh?.user) {
+      user = refresh.user;
+    }
+
+    if (refresh?.session) {
+      session = refresh.session;
+    }
+  }
+
   const url = new URL(req.url);
 
   if (!user) {
@@ -54,5 +86,10 @@ export async function handler(
       });
     }
   }
-  return ctx.next();
+
+  const next = await ctx.next();
+  if (session?.access_token) {
+    setAuthCookie(next, session?.refresh_token, session?.access_token);
+  }
+  return next;
 }

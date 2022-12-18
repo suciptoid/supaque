@@ -4,9 +4,25 @@ export default function CreateTask() {
   const [method, setMethod] = useState("GET");
   const [timing, setTiming] = useState("cron");
 
+  const onSubmit = async (e: Event) => {
+    e.preventDefault();
+    const target = e.target as HTMLFormElement;
+    const form = new FormData(target);
+
+    const submited = await fetch(target.action, {
+      method: target.getAttribute("method") || "GET",
+      body: form,
+    });
+    console.log("on submit", form.get("method"), submited);
+  };
+
   return (
     <div class="py-2">
-      <form class="py-1 flex flex-col gap-3" method="post">
+      <form
+        class="py-1 flex flex-col gap-3"
+        method="post"
+        onSubmitCapture={onSubmit}
+      >
         <fieldset class="flex flex-col">
           <label class="font-medium text-gray-800">URL</label>
           <div class="flex items-center gap-1 w-full">
@@ -37,25 +53,29 @@ export default function CreateTask() {
           </fieldset>
         )}
         <fieldset>
-          <label class="font-medium text-gray-800">Timing</label>
-          <div className="flex items-center border rounded-md text-sm">
-            <button
-              onClick={() => setTiming("once")}
-              type="button"
-              class={`rounded-l-md flex-1 py-2 focus:outline-none focus:ring ${
-                timing == "once" ? "bg-gray-200" : ""
-              }`}
-            >
-              Once
-            </button>
+          <label class="font-medium text-gray-800 py-2">Timing</label>
+          <div className="flex items-center rounded-md text-sm">
             <button
               type="button"
               onClick={() => setTiming("cron")}
-              class={`rounded-r-md flex-1 py-2 focus:outline-none focus:ring ${
-                timing == "cron" ? "bg-gray-200" : ""
+              class={`rounded-l-md flex-1 py-2 focus:outline-none focus:ring border font-medium ${
+                timing == "cron"
+                  ? "bg-blue-400 text-white border border-blue-500 shadow-inner border-l-0"
+                  : "border-gray-300"
               }`}
             >
               Repeat (Cron)
+            </button>
+            <button
+              onClick={() => setTiming("once")}
+              type="button"
+              class={`rounded-r-md flex-1 py-2 focus:outline-none focus:ring border font-medium ${
+                timing == "once"
+                  ? "bg-blue-400 text-white border border-blue-500 shadow-inner border-l-0"
+                  : "border-gray-300"
+              }`}
+            >
+              Once
             </button>
           </div>
           <input type="hidden" name="timing" value={timing} />
@@ -79,7 +99,7 @@ export default function CreateTask() {
             <label>
               <input
                 type="text"
-                name="cron"
+                name="delay"
                 placeholder="0"
                 class="px-3 py-2 rounded border"
               />{" "}

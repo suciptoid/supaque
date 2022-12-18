@@ -5,15 +5,15 @@ export default function CreateTask() {
   const [timing, setTiming] = useState("cron");
 
   const onSubmit = async (e: Event) => {
-    e.preventDefault();
-    const target = e.target as HTMLFormElement;
-    const form = new FormData(target);
-
-    const submited = await fetch(target.action, {
-      method: target.getAttribute("method") || "GET",
-      body: form,
-    });
-    console.log("on submit", form.get("method"), submited);
+    // MISS remix.run action/loader :(
+    // e.preventDefault();
+    // const target = e.target as HTMLFormElement;
+    // const form = new FormData(target);
+    // const submited = await fetch(target.action, {
+    //   method: target.getAttribute("method") || "GET",
+    //   body: form,
+    // });
+    // console.log("on submit", form.get("method"), submited);
   };
 
   return (

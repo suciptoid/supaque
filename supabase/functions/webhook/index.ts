@@ -44,6 +44,8 @@ serve(async (req) => {
         body: data.http_body,
       };
       const req = await fetch(data.http_url, init);
+      // @ts-ignore - headers.entries() should work
+      const headers = Object.fromEntries(req.headers.entries());
 
       const update = await supabase
         .from("task_runs")
@@ -51,7 +53,7 @@ serve(async (req) => {
           completed_at: new Date().toISOString(),
           http_body: await req.text(),
           http_status: req.status,
-          http_headers: JSON.stringify(req.headers),
+          http_headers: JSON.stringify(headers),
         })
         .eq("id", task.id)
         .select("*");

@@ -1,4 +1,5 @@
 import { PageProps, Handlers } from "$fresh/server.ts";
+import { Head } from "$fresh/runtime.ts";
 import { User } from "https://esm.sh/v99/@supabase/gotrue-js@2.5.0/dist/module/lib/types";
 import AppLayout from "../../components/AppLayout.tsx";
 import CreateTask from "../../islands/CreateTask.tsx";
@@ -28,8 +29,6 @@ export const handler: Handlers<Data, AppState> = {
       )
       .eq("tasks.org_id", ctx.params.org)
       .order("created_at", { ascending: false });
-
-    console.log("quueuee", data);
 
     return ctx.render({ user, logs: data as QueueLog[] });
   },
@@ -65,9 +64,14 @@ export const handler: Handlers<Data, AppState> = {
 
 export default function AppIndexPage({ data }: PageProps<Data>) {
   return (
-    <AppLayout user={data.user}>
-      <CreateTask />
-      <QueueList data={data.logs} />
-    </AppLayout>
+    <>
+      <Head>
+        <title>Supa Que - Dashboard</title>
+      </Head>
+      <AppLayout user={data.user}>
+        <CreateTask />
+        <QueueList data={data.logs} />
+      </AppLayout>
+    </>
   );
 }

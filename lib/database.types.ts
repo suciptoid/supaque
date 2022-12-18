@@ -114,3 +114,4 @@ export interface Database {
 
 export type Org = Database["public"]["Tables"]["orgs"]["Row"];
 export type TaskInsert = Database["public"]["Tables"]["tasks"]["Insert"];
+export type Task = Database["public"]["Tables"]["tasks"]["Row"];

@@ -14,8 +14,9 @@ import * as $7 from "./routes/callback.tsx";
 import * as $8 from "./routes/index.tsx";
 import * as $$0 from "./islands/Counter.tsx";
 import * as $$1 from "./islands/CreateTask.tsx";
-import * as $$2 from "./islands/LoginCallback.tsx";
-import * as $$3 from "./islands/QueueList.tsx";
+import * as $$2 from "./islands/LogList.tsx";
+import * as $$3 from "./islands/LoginCallback.tsx";
+import * as $$4 from "./islands/PendingList.tsx";
 
 const manifest = {
   routes: {
@@ -32,8 +33,9 @@ const manifest = {
   islands: {
     "./islands/Counter.tsx": $$0,
     "./islands/CreateTask.tsx": $$1,
-    "./islands/LoginCallback.tsx": $$2,
-    "./islands/QueueList.tsx": $$3,
+    "./islands/LogList.tsx": $$2,
+    "./islands/LoginCallback.tsx": $$3,
+    "./islands/PendingList.tsx": $$4,
   },
   baseUrl: import.meta.url,
   config,

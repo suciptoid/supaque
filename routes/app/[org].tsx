@@ -3,15 +3,17 @@ import { Head } from "$fresh/runtime.ts";
 import { User } from "https://esm.sh/v99/@supabase/gotrue-js@2.5.0/dist/module/lib/types";
 import AppLayout from "../../components/AppLayout.tsx";
 import CreateTask from "../../islands/CreateTask.tsx";
-import QueueList, { QueueLog } from "../../islands/QueueList.tsx";
-import { TaskInsert } from "../../lib/database.types.ts";
+import LogList, { QueueLog } from "../../islands/LogList.tsx";
+import { Task, TaskInsert } from "../../lib/database.types.ts";
 import { supabase } from "../../lib/supabase.ts";
 import { AppState } from "./_middleware.ts";
 import { Cron } from "https://deno.land/x/croner@5.3.4/src/croner.js";
+import PendingList from "../../islands/PendingList.tsx";
 
 interface Data {
   user: User;
   logs?: QueueLog[];
+  pendings?: Task[];
   error?: string;
   count?: {
     logs: number;
@@ -54,7 +56,12 @@ export const handler: Handlers<Data, AppState> = {
       pending: pendings.count || 0,
     };
 
-    return ctx.render({ user, count, logs: data as QueueLog[] });
+    return ctx.render({
+      user,
+      count,
+      logs: data as QueueLog[],
+      pendings: pendings.data || [],
+    });
   },
   async POST(req, ctx) {
     const form = await req.formData();
@@ -140,7 +147,7 @@ export default function AppIndexPage({ data, params }: PageProps<Data>) {
         <title>Supa Que - Dashboard</title>
       </Head>
       <AppLayout user={data.user}>
-        {/* <CreateTask /> */}
+        <CreateTask />
         <div id="overview-card" class="grid grid-cols-2 mt-3 gap-2">
           <div class="border rounded-md px-4 py-4">
             <div class="text-4xl font-extrabold text-gray-900">
@@ -169,7 +176,7 @@ export default function AppIndexPage({ data, params }: PageProps<Data>) {
           </div>
           <a
             href={`/app/${params.org}/queue`}
-            class="text-sm font-medium text-blue-500 flex items-center"
+            class="text-sm font-medium text-blue-500 flex items-center hidden"
           >
             All Tasks
             <svg
@@ -188,6 +195,9 @@ export default function AppIndexPage({ data, params }: PageProps<Data>) {
             </svg>
           </a>
         </div>
+
+        <PendingList data={data.pendings || []} />
+
         <div className="flex items-center justify-between">
           <div class="my-3 ">
             <h2 class="text-lg font-semibold text-gray-800">Queue Logs</h2>
@@ -197,7 +207,7 @@ export default function AppIndexPage({ data, params }: PageProps<Data>) {
           </div>
           <a
             href={`/app/${params.org}/logs`}
-            class="text-sm font-medium text-blue-500 flex items-center"
+            class="text-sm font-medium text-blue-500 flex items-center hidden"
           >
             See more
             <svg
@@ -216,7 +226,7 @@ export default function AppIndexPage({ data, params }: PageProps<Data>) {
             </svg>
           </a>
         </div>
-        <QueueList data={data.logs} />
+        <LogList data={data.logs} />
       </AppLayout>
     </>
   );

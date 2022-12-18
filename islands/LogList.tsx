@@ -19,7 +19,7 @@ interface Props {
   data?: QueueLog[];
 }
 
-export default function QueueList({ data }: Props) {
+export default function LogList({ data }: Props) {
   return (
     <div id="queue-lists">
       {data?.map((log) => (

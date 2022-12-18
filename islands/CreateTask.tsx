@@ -82,7 +82,16 @@ export default function CreateTask() {
         </fieldset>
         {timing == "cron" && (
           <fieldset class="flex flex-col">
-            <label class="font-medium text-gray-800">Cron Expression</label>
+            <label class="font-medium text-gray-800">
+              Cron Expression{" "}
+              <a
+                href="https://crontab.guru/"
+                target="_blank"
+                class="text-blue-500 text-sm mx-1"
+              >
+                (need help?)
+              </a>{" "}
+            </label>
             <input
               type="text"
               name="cron"

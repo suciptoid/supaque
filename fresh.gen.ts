@@ -3,13 +3,15 @@
 // This file is automatically updated during development when running `dev.ts`.
 
 import config from "./deno.json" assert { type: "json" };
-import * as $0 from "./routes/app/[org].tsx";
-import * as $1 from "./routes/app/_middleware.ts";
-import * as $2 from "./routes/app/index.tsx";
-import * as $3 from "./routes/app/logout.tsx";
-import * as $4 from "./routes/auth.tsx";
-import * as $5 from "./routes/callback.tsx";
-import * as $6 from "./routes/index.tsx";
+import * as $0 from "./routes/_404.tsx";
+import * as $1 from "./routes/_500.tsx";
+import * as $2 from "./routes/app/[org].tsx";
+import * as $3 from "./routes/app/_middleware.ts";
+import * as $4 from "./routes/app/index.tsx";
+import * as $5 from "./routes/app/logout.tsx";
+import * as $6 from "./routes/auth.tsx";
+import * as $7 from "./routes/callback.tsx";
+import * as $8 from "./routes/index.tsx";
 import * as $$0 from "./islands/Counter.tsx";
 import * as $$1 from "./islands/CreateTask.tsx";
 import * as $$2 from "./islands/LoginCallback.tsx";
@@ -17,13 +19,15 @@ import * as $$3 from "./islands/QueueList.tsx";
 
 const manifest = {
   routes: {
-    "./routes/app/[org].tsx": $0,
-    "./routes/app/_middleware.ts": $1,
-    "./routes/app/index.tsx": $2,
-    "./routes/app/logout.tsx": $3,
-    "./routes/auth.tsx": $4,
-    "./routes/callback.tsx": $5,
-    "./routes/index.tsx": $6,
+    "./routes/_404.tsx": $0,
+    "./routes/_500.tsx": $1,
+    "./routes/app/[org].tsx": $2,
+    "./routes/app/_middleware.ts": $3,
+    "./routes/app/index.tsx": $4,
+    "./routes/app/logout.tsx": $5,
+    "./routes/auth.tsx": $6,
+    "./routes/callback.tsx": $7,
+    "./routes/index.tsx": $8,
   },
   islands: {
     "./islands/Counter.tsx": $$0,

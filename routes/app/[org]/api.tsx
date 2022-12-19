@@ -10,6 +10,19 @@ interface PageData {
   org?: Org;
 }
 
+const sample = (org: string, key: string) => `
+curl --request POST \\
+  --url http://localhost:8000/api/${org} \\
+  --header 'Authorization: Bearer ${key}' \\
+  --header 'Content-Type: application/json' \\
+  --data '{
+	"http_url":"https://httpbin.org/post?id=xyzabc",
+	"http_method": "POST",
+	"timing": "cron",
+	"cron_schedule": "*/10 * * * *"
+}'
+`;
+
 export const handler: Handlers<PageData, AppState> = {
   async GET(req, ctx) {
     const org = await supabase
@@ -75,6 +88,12 @@ export default function ApiPage({ data, params }: PageProps<PageData>) {
           </div>
         </fieldset>
       </form>
+      <h2 class="text-lg font-bold text-gray-700">Usage Example</h2>
+      <div>
+        <pre class="bg-gray-100 p-3 rounded-md whitespace-pre-wrap text-sm font-mono">
+          {sample(params.org, data.org?.api_key || "xyzssssssssssssssssss")}
+        </pre>
+      </div>
     </AppLayout>
   );
 }

@@ -15,18 +15,21 @@ export interface Database {
           name: string;
           creator_id: string;
           created_at: string | null;
+          api_key: string | null;
         };
         Insert: {
           id?: string;
           name: string;
           creator_id: string;
           created_at?: string | null;
+          api_key?: string | null;
         };
         Update: {
           id?: string;
           name?: string;
           creator_id?: string;
           created_at?: string | null;
+          api_key?: string | null;
         };
       };
       task_runs: {
@@ -71,6 +74,7 @@ export interface Database {
           max_retry: number;
           max_timeout: number;
           org_id: string;
+          http_headers: string | null;
         };
         Insert: {
           id?: string;
@@ -84,6 +88,7 @@ export interface Database {
           max_retry?: number;
           max_timeout?: number;
           org_id: string;
+          http_headers?: string | null;
         };
         Update: {
           id?: string;
@@ -97,6 +102,7 @@ export interface Database {
           max_retry?: number;
           max_timeout?: number;
           org_id?: string;
+          http_headers?: string | null;
         };
       };
     };

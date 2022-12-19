@@ -5,14 +5,15 @@
 import config from "./deno.json" assert { type: "json" };
 import * as $0 from "./routes/_404.tsx";
 import * as $1 from "./routes/_500.tsx";
-import * as $2 from "./routes/app/[org]/create.tsx";
-import * as $3 from "./routes/app/[org]/index.tsx";
-import * as $4 from "./routes/app/_middleware.ts";
-import * as $5 from "./routes/app/index.tsx";
-import * as $6 from "./routes/app/logout.tsx";
-import * as $7 from "./routes/auth.tsx";
-import * as $8 from "./routes/callback.tsx";
-import * as $9 from "./routes/index.tsx";
+import * as $2 from "./routes/app/[org]/api.tsx";
+import * as $3 from "./routes/app/[org]/create.tsx";
+import * as $4 from "./routes/app/[org]/index.tsx";
+import * as $5 from "./routes/app/_middleware.ts";
+import * as $6 from "./routes/app/index.tsx";
+import * as $7 from "./routes/app/logout.tsx";
+import * as $8 from "./routes/auth.tsx";
+import * as $9 from "./routes/callback.tsx";
+import * as $10 from "./routes/index.tsx";
 import * as $$0 from "./islands/Counter.tsx";
 import * as $$1 from "./islands/CreateTask.tsx";
 import * as $$2 from "./islands/LogList.tsx";
@@ -23,14 +24,15 @@ const manifest = {
   routes: {
     "./routes/_404.tsx": $0,
     "./routes/_500.tsx": $1,
-    "./routes/app/[org]/create.tsx": $2,
-    "./routes/app/[org]/index.tsx": $3,
-    "./routes/app/_middleware.ts": $4,
-    "./routes/app/index.tsx": $5,
-    "./routes/app/logout.tsx": $6,
-    "./routes/auth.tsx": $7,
-    "./routes/callback.tsx": $8,
-    "./routes/index.tsx": $9,
+    "./routes/app/[org]/api.tsx": $2,
+    "./routes/app/[org]/create.tsx": $3,
+    "./routes/app/[org]/index.tsx": $4,
+    "./routes/app/_middleware.ts": $5,
+    "./routes/app/index.tsx": $6,
+    "./routes/app/logout.tsx": $7,
+    "./routes/auth.tsx": $8,
+    "./routes/callback.tsx": $9,
+    "./routes/index.tsx": $10,
   },
   islands: {
     "./islands/Counter.tsx": $$0,

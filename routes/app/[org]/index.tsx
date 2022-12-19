@@ -147,7 +147,7 @@ export default function AppIndexPage({ data, params }: PageProps<Data>) {
       <Head>
         <title>Supa Que - Dashboard</title>
       </Head>
-      <AppLayout user={data.user}>
+      <AppLayout user={data.user} org={params.org}>
         <div id="overview-card" class="grid grid-cols-2 mt-3 gap-2">
           <div class="border rounded-md px-4 py-4">
             <div class="text-4xl font-extrabold text-gray-900">

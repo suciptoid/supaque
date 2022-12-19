@@ -98,13 +98,13 @@ export const handler: Handlers<Data, AppState> = {
   },
 };
 
-export default function CreateTaskPage({ data }: PageProps) {
+export default function CreateTaskPage({ data, params }: PageProps) {
   return (
     <>
       <Head>
         <title>Supa Que - Dashboard</title>
       </Head>
-      <AppLayout user={data.user}>
+      <AppLayout user={data.user} org={params.org}>
         <CreateTask />
       </AppLayout>
     </>

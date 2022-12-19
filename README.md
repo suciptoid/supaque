@@ -1,6 +1,10 @@
-# fresh project
+# Supa Que
 
-### Usage
+Serverless Queue Worker powered by Supabase
+
+### Development
+
+This project use Deno fresh framework.
 
 Start the project:
 

@@ -7,12 +7,10 @@ export default function LoginCallback() {
     const url = new URL(window.location.href);
     const param = new URLSearchParams(url.hash);
 
-    console.log("callback param", param.toString());
     const token = param.get("#access_token");
     param.delete("#access_token");
     if (token) {
       param.set("access_token", token);
-      console.log("has access token callback", token);
       globalThis.location.replace(`/auth?${param.toString()}`);
     } else if (param.get("error_code")) {
       setMessage(param.get("error_description") || "Unable to login");

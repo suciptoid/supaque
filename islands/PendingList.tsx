@@ -7,7 +7,7 @@ export default function PendingList({ data }: Props) {
   return (
     <>
       {data?.length == 0 && (
-        <div className="border p-6 rounded-md text-gray-400 text-center text-sm font-medium ">
+        <div className="border p-6 rounded-md text-gray-400 text-center text-sm ">
           No pending tasks
         </div>
       )}

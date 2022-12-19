@@ -34,7 +34,9 @@ export const handler: Handlers<Data, AppState> = {
       .select(
         `
       id,task_id,http_status,http_body,created_at,completed_at,
-      tasks(id,name,cron_schedule,next_run,http_method,http_url)
+      tasks!inner(
+        id,name,cron_schedule,next_run,http_method,http_url,org_id
+        )
       `,
         { count: "exact" }
       )
@@ -168,7 +170,7 @@ export default function AppIndexPage({ data, params }: PageProps<Data>) {
         <div className="flex items-center justify-between">
           <div className="my-3 w-full">
             <div className="flex items-center justify-between">
-              <h2 class="text-lg font-semibold text-gray-800">Pending Task</h2>
+              <h2 class="text-lg font-semibold text-gray-800">Queued Task</h2>
               <a
                 href={`/app/${params.org}/create`}
                 class="px-3 py-1.5 text-sm text-white bg-blue-500 rounded-md"
@@ -232,7 +234,7 @@ export default function AppIndexPage({ data, params }: PageProps<Data>) {
             </svg>
           </a>
         </div>
-        <LogList data={data.logs} />
+        <LogList data={data.logs || []} />
       </AppLayout>
     </>
   );

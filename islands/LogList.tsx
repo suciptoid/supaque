@@ -22,6 +22,11 @@ interface Props {
 export default function LogList({ data }: Props) {
   return (
     <div id="queue-lists">
+      {data?.length == 0 && (
+        <div className="border p-6 rounded-md text-gray-400 text-center text-sm ">
+          No logs created
+        </div>
+      )}
       {data?.map((log) => (
         <QueueItem key={log.id} log={log} />
       ))}
@@ -60,10 +65,10 @@ export const QueueItem = ({ log }: ItemProps) => {
           )}
         </div>
         <div class="text-sm font-semibold text-gray-700">
-          {log.tasks.http_method}
+          {log.tasks?.http_method}
         </div>
         <div>
-          {log.tasks.cron_schedule != null ? (
+          {log.tasks?.cron_schedule != null ? (
             <div
               class="p-1 border bg-gray-100 rounded-md"
               title="Triggered by cron"
@@ -93,7 +98,7 @@ export const QueueItem = ({ log }: ItemProps) => {
         </div>
       </div>
       <div>
-        <div class="text-sm text-gray-600">{log.tasks.http_url}</div>
+        <div class="text-sm text-gray-600">{log.tasks?.http_url}</div>
       </div>
     </div>
   );

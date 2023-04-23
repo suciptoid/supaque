@@ -3,6 +3,7 @@ import {
   getUserFromSession,
   setAuthCookie,
   supabase,
+  supabaseSSR,
 } from "../lib/supabase.ts";
 import { setCookie } from "$std/http/cookie.ts";
 import { Head } from "$fresh/runtime.ts";
@@ -20,7 +21,9 @@ export const handler: Handlers<AuthData> = {
     const url = new URL(req.url);
 
     if (form.get("oauth") == "google") {
-      const google = await supabase.auth.signInWithOAuth({
+      const res = new Response();
+      const sup = supabaseSSR(req, res);
+      const google = await sup.auth.signInWithOAuth({
         provider: "google",
         options: {
           redirectTo: `${url.origin}/callback`,
@@ -28,11 +31,11 @@ export const handler: Handlers<AuthData> = {
       });
       console.log("login with google", google);
       if (!google.error) {
+        const headers = res.headers;
+        headers.append("Location", google.data.url);
         return new Response("", {
           status: 303,
-          headers: {
-            Location: google.data.url,
-          },
+          headers,
         });
       } else {
         return ctx.render({ error: google.error.message });

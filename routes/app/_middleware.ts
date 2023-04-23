@@ -1,6 +1,8 @@
 import { MiddlewareHandlerContext } from "$fresh/server.ts";
-import { User } from "https://esm.sh/v99/@supabase/gotrue-js@2.5.0/dist/module/index";
-import { Session } from "https://esm.sh/v99/@supabase/gotrue-js@2.5.0/dist/module/lib/types";
+import {
+  User,
+  Session,
+} from "https://esm.sh/v116/@supabase/gotrue-js@2.23.0/dist/module/index.js";
 import { Org } from "../../lib/database.types.ts";
 import {
   accessTokenExpired,

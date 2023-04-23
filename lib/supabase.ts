@@ -21,12 +21,12 @@ export const supabaseSSR = (req: Request, res: Response) =>
         storageKey: "pkce",
         storage: {
           setItem: (key, value) => {
-            const val = encode(value.replaceAll('"', "")); //value.replaceAll('"', "");
-            console.log("set items", { key, value: val });
+            const val = encode(value);
             setCookie(res.headers, {
               name: key,
               value: val,
               sameSite: "Lax",
+              maxAge: 60 * 60 * 24 * 7 * 1000,
               path: "/",
             });
           },
@@ -38,14 +38,18 @@ export const supabaseSSR = (req: Request, res: Response) =>
             }
             const decoded = decode(val);
             const decodedStr = new TextDecoder("utf-8").decode(decoded);
-            console.log("getitem", {
-              key,
-              decodedStr,
-            });
             return decodedStr;
           },
           removeItem: (key) => {
             console.log("remove item", { key });
+
+            setCookie(res.headers, {
+              name: key,
+              value: "",
+              sameSite: "Lax",
+              expires: new Date(0),
+              path: "/",
+            });
           },
         },
       },

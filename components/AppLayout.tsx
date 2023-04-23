@@ -1,4 +1,4 @@
-import { User } from "https://esm.sh/v99/@supabase/gotrue-js@2.5.0/dist/module/lib/types";
+import { User } from "https://esm.sh/v116/@supabase/gotrue-js@2.23.0/dist/module/index.js";
 import { ComponentChildren } from "preact";
 
 interface Props {

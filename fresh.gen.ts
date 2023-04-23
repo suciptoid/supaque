@@ -6,16 +6,15 @@ import config from "./deno.json" assert { type: "json" };
 import * as $0 from "./routes/_404.tsx";
 import * as $1 from "./routes/_500.tsx";
 import * as $2 from "./routes/api/[org].ts";
-import * as $3 from "./routes/api/cron.ts";
-import * as $4 from "./routes/app/[org]/api.tsx";
-import * as $5 from "./routes/app/[org]/create.tsx";
-import * as $6 from "./routes/app/[org]/index.tsx";
-import * as $7 from "./routes/app/_middleware.ts";
-import * as $8 from "./routes/app/index.tsx";
-import * as $9 from "./routes/app/logout.tsx";
-import * as $10 from "./routes/auth.tsx";
-import * as $11 from "./routes/callback.tsx";
-import * as $12 from "./routes/index.tsx";
+import * as $3 from "./routes/app/[org]/api.tsx";
+import * as $4 from "./routes/app/[org]/create.tsx";
+import * as $5 from "./routes/app/[org]/index.tsx";
+import * as $6 from "./routes/app/_middleware.ts";
+import * as $7 from "./routes/app/index.tsx";
+import * as $8 from "./routes/app/logout.tsx";
+import * as $9 from "./routes/auth.tsx";
+import * as $10 from "./routes/callback.tsx";
+import * as $11 from "./routes/index.tsx";
 import * as $$0 from "./islands/Counter.tsx";
 import * as $$1 from "./islands/CreateTask.tsx";
 import * as $$2 from "./islands/LogList.tsx";
@@ -26,16 +25,15 @@ const manifest = {
     "./routes/_404.tsx": $0,
     "./routes/_500.tsx": $1,
     "./routes/api/[org].ts": $2,
-    "./routes/api/cron.ts": $3,
-    "./routes/app/[org]/api.tsx": $4,
-    "./routes/app/[org]/create.tsx": $5,
-    "./routes/app/[org]/index.tsx": $6,
-    "./routes/app/_middleware.ts": $7,
-    "./routes/app/index.tsx": $8,
-    "./routes/app/logout.tsx": $9,
-    "./routes/auth.tsx": $10,
-    "./routes/callback.tsx": $11,
-    "./routes/index.tsx": $12,
+    "./routes/app/[org]/api.tsx": $3,
+    "./routes/app/[org]/create.tsx": $4,
+    "./routes/app/[org]/index.tsx": $5,
+    "./routes/app/_middleware.ts": $6,
+    "./routes/app/index.tsx": $7,
+    "./routes/app/logout.tsx": $8,
+    "./routes/auth.tsx": $9,
+    "./routes/callback.tsx": $10,
+    "./routes/index.tsx": $11,
   },
   islands: {
     "./islands/Counter.tsx": $$0,

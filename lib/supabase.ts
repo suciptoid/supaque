@@ -16,7 +16,9 @@ export const supabaseSSR = (req: Request, res: Response) =>
     Deno.env.get("SUPABASE_KEY") as string,
     {
       auth: {
+        detectSessionInUrl: false,
         flowType: "pkce",
+        storageKey: "pkce",
         storage: {
           setItem: (key, value) => {
             const val = encode(value.replaceAll('"', "")); //value.replaceAll('"', "");
@@ -37,6 +39,7 @@ export const supabaseSSR = (req: Request, res: Response) =>
             const decoded = decode(val);
             const decodedStr = new TextDecoder("utf-8").decode(decoded);
             console.log("getitem", {
+              key,
               decodedStr,
             });
             return decodedStr;

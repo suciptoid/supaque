@@ -19,10 +19,10 @@ export const handler: Handlers<AuthData> = {
     console.log("post form", Object.fromEntries(form));
 
     const url = new URL(req.url);
+    const res = new Response();
+    const sup = supabaseSSR(req, res);
 
     if (form.get("oauth") == "google") {
-      const res = new Response();
-      const sup = supabaseSSR(req, res);
       const google = await sup.auth.signInWithOAuth({
         provider: "google",
         options: {
@@ -41,7 +41,7 @@ export const handler: Handlers<AuthData> = {
         return ctx.render({ error: google.error.message });
       }
     }
-    const { error } = await supabase.auth.signInWithOtp({
+    const { error } = await sup.auth.signInWithOtp({
       email: form.get("email") as string,
       options: {
         emailRedirectTo: `${url.origin}/callback`,
@@ -49,7 +49,12 @@ export const handler: Handlers<AuthData> = {
     });
 
     if (!error) {
-      return ctx.render({ message: "Check your email for the login link" });
+      const rendered = await ctx.render({
+        message: "Check your email for the login link",
+      });
+      return new Response(rendered.body, {
+        headers: res.headers,
+      });
     } else {
       return ctx.render({ error: error.message });
     }
@@ -57,34 +62,16 @@ export const handler: Handlers<AuthData> = {
   async GET(req, ctx) {
     const url = new URL(req.url);
 
-    const access = url.searchParams.get("access_token");
-    const refresh = url.searchParams.get("refresh_token");
-
-    if (access && refresh) {
-      const user = await supabase.auth.getUser(access);
-      if (!user.error) {
-        const resp = new Response("", {
-          status: 303,
-          headers: {
-            Location: "/app",
-          },
-        });
-
-        setAuthCookie(resp, refresh, access);
-
-        return resp;
-      }
-    } else {
-      const user = await getUserFromSession(req);
-      if (user) {
-        return new Response("", {
-          status: 303,
-          headers: {
-            Location: "/app",
-          },
-        });
-      }
+    const user = await getUserFromSession(req);
+    if (user) {
+      return new Response("", {
+        status: 303,
+        headers: {
+          Location: "/app",
+        },
+      });
     }
+
     return ctx.render({});
   },
 };

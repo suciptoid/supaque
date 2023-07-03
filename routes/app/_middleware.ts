@@ -83,7 +83,7 @@ export async function handler(
       return new Response("", {
         status: 303,
         headers: {
-          location: `/app/${created.data[0]?.id}}`,
+          location: `/app/${created.data[0]?.id}`,
         },
       });
     }

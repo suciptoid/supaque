@@ -22,7 +22,7 @@ export const handler: Handlers<Data, AppState> = {
       });
     }
 
-    return ctx.render({ user: ctx.state.user });
+    return ctx.render({ user: ctx.state.user as User });
   },
 };
 export default function AppIndexPage({ data }: PageProps<Data>) {

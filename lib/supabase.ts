@@ -41,8 +41,6 @@ export const supabaseSSR = (req: Request, res: Response) =>
             return decodedStr;
           },
           removeItem: (key) => {
-            console.log("remove item", { key });
-
             setCookie(res.headers, {
               name: key,
               value: "",

@@ -16,7 +16,6 @@ interface AuthData {
 export const handler: Handlers<AuthData> = {
   async POST(req, ctx) {
     const form = await req.formData();
-    console.log("post form", Object.fromEntries(form));
 
     const url = new URL(req.url);
     const res = new Response();
@@ -29,7 +28,6 @@ export const handler: Handlers<AuthData> = {
           redirectTo: `${url.origin}/callback`,
         },
       });
-      console.log("login with google", google);
       if (!google.error) {
         const headers = res.headers;
         headers.append("Location", google.data.url);
